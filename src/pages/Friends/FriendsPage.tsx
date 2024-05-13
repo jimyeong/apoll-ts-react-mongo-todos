@@ -27,6 +27,15 @@ const GET_FRIENDS = gql`
       nationality
       gender
       email
+      todos {
+        id
+        ownerId
+        task
+        urgency
+        importance
+        createAt
+        updatedAt
+      }
     }
   }
 `;
