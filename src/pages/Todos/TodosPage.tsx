@@ -16,6 +16,7 @@ const todos = [
 const TodosPage = ({ children }: ITodos) => {
   return (
     <div>
+      <div>Add todo</div>
       <ListViewer
         list={todos}
         renderer={(item, i) => <StickyNote note={item} key={i} />}

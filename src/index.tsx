@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+// 1. import `ChakraProvider` component
+
 import {
   ApolloClient,
   gql,
