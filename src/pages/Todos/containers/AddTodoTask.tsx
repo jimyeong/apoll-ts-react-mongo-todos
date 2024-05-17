@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, useState } from "react";
-import InputTodo from "../components/InputTodo";
+import InputTodo from "../ui/components/InputTodo";
 
 const AddTodoTask = ({ children }: React.PropsWithChildren) => {
   const [inputText, setInputText] = useState("");
@@ -9,7 +9,7 @@ const AddTodoTask = ({ children }: React.PropsWithChildren) => {
   };
   return (
     <React.Fragment>
-      <InputTodo text={inputText} onChange={onChange} />
+      <InputTodo inputId="todo" text={inputText} onChange={onChange} />
     </React.Fragment>
   );
 };

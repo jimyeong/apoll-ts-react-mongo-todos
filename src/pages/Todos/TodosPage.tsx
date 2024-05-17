@@ -1,6 +1,7 @@
 import React from "react";
 import { ListViewer } from "../../ui";
 import { StickyNote } from "./ui";
+import AddTodoTask from "./containers/AddTodoTask";
 
 interface ITodos extends React.PropsWithChildren {}
 const todos = [
@@ -16,7 +17,7 @@ const todos = [
 const TodosPage = ({ children }: ITodos) => {
   return (
     <div>
-      <div>Add todo</div>
+      <AddTodoTask />
       <ListViewer
         list={todos}
         renderer={(item, i) => <StickyNote note={item} key={i} />}

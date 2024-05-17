@@ -2,27 +2,33 @@ import React, { ChangeEventHandler } from "react";
 import { Input } from "@chakra-ui/react";
 
 interface ITextInput extends React.PropsWithChildren {
+  id: string;
   placeholder: string;
   size?: string;
   text?: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  onChangeHandler?: ChangeEventHandler;
+  onReset?: () => void;
 }
 
 const TextInput = ({
+  id,
   text,
   size,
   placeholder,
-  onChange,
+  onChangeHandler,
+  onReset,
   children,
 }: ITextInput) => {
   return (
     <Input
-      onChange={onChange}
+      name={id}
+      onChange={onChangeHandler}
+      onReset={onReset}
       placeholder={placeholder}
       size={size || "md"}
       value={text}
     />
   );
 };
-
 export default TextInput;
+export type { ITextInput };

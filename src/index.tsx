@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { ColorModeScript } from "@chakra-ui/react";
+import theme from "./theme";
 
 // 1. import `ChakraProvider` component
 
@@ -22,6 +24,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <ApolloProvider client={client}>
+    <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <App />
   </ApolloProvider>
 );

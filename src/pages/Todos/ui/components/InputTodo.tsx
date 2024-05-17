@@ -2,15 +2,17 @@ import React, { ChangeEventHandler } from "react";
 import { TextInput } from "../../../../ui";
 
 interface IInputTodo extends React.PropsWithChildren {
+  inputId: string;
   text: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
-const InputTodo = ({ onChange, text, children }: IInputTodo) => {
+const InputTodo = ({ inputId, onChange, text, children }: IInputTodo) => {
   return (
     <React.Fragment>
       <TextInput
-        onChange={onChange}
+        id={inputId}
+        onChangeHandler={onChange}
         text={text}
         placeholder="Type a thing to do"
       />
