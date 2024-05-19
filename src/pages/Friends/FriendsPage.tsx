@@ -3,7 +3,7 @@ import { ListViewer } from "../../ui";
 import { gql, useQuery } from "@apollo/client";
 import { CardRenderer, Card } from "../../ui";
 
-interface Friend {
+export interface Friend {
   firstName: string;
   lastName: string;
   tel: string;
