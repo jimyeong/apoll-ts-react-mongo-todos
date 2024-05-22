@@ -10,15 +10,6 @@ export const GET_SEARCHING_RESULT = gql`
       nationality
       gender
       email
-      todos {
-        id
-        ownerId
-        task
-        urgency
-        importance
-        createAt
-        updatedAt
-      }
     }
   }
 `;
