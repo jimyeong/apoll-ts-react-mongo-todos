@@ -41,7 +41,6 @@ const UserSearchingContainer = ({ children }: IUserSearchingContainer) => {
     isSearching: false,
     selectedId: "",
   };
-
   const [searchingState, setSearchingState] = useState(initialState);
   const isOpen =
     searchingState.id_finder != "" && searchingState.selectedId == "";
@@ -52,7 +51,11 @@ const UserSearchingContainer = ({ children }: IUserSearchingContainer) => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = e.currentTarget;
-    const isSearching = value == "" ? false : true;
+    let isSearching = true;
+    // when deleted up
+    if (value == "") isSearching = false;
+
+    // const isSearching = value == "" ? false : true;
     setSearchingState({
       ...searchingState,
       [name]: value,
@@ -82,7 +85,7 @@ const UserSearchingContainer = ({ children }: IUserSearchingContainer) => {
       <SearchingDisplayPanel
         list={data ? data.searchUsers : []}
         isLoading={loading}
-        isOpen={isOpen}
+        isOpen={searchingState.isSearching}
         keyword={searchingState.id_finder}
         renderer={(item: Friend, i: number) => (
           <Text

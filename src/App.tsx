@@ -20,9 +20,8 @@ function App() {
     <ChakraProvider>
       <AppUIBlock className="App">
         <WrapperContainer>
-          <FriendsPage />
-          <TodosPage />
           <MainPage />
+          <TodosPage />
         </WrapperContainer>
       </AppUIBlock>
     </ChakraProvider>

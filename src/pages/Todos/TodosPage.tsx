@@ -2,6 +2,14 @@ import React from "react";
 import { ListViewer } from "../../ui";
 import { StickyNote } from "./ui";
 import AddTodoTask from "./containers/AddTodoTask";
+import styled from "styled-components";
+import { useQuery } from "@apollo/client";
+import { GET_TODO_LIST } from "./schemes/Todos";
+import { Spinner } from "@chakra-ui/react";
+import { Todo } from "./schemes/Todos";
+import { stickyNotesColours } from "../../config/stickyNotesColours";
+
+const TodoCardUIBlock = styled.div``;
 
 interface ITodos extends React.PropsWithChildren {}
 const todos = [
@@ -15,14 +23,29 @@ const todos = [
   },
 ];
 const TodosPage = ({ children }: ITodos) => {
+  const { loading, error, data } = useQuery(GET_TODO_LIST);
+  if (error) return <div>{error.message}</div>;
+  if (loading) return <Spinner />;
+  console.log("@@@ hello it's coming", data.getTodoList);
+
   return (
-    <div>
-      <AddTodoTask />
-      <ListViewer
-        list={todos}
-        renderer={(item, i) => <StickyNote note={item} key={i} />}
-      />
-    </div>
+    <TodoCardUIBlock>
+      <div className="clearfix">
+        <ListViewer
+          list={data.getTodoList}
+          renderer={(item: Todo, i) => {
+            const notesNum = stickyNotesColours.length;
+            const noteColourIndex = Math.floor(Math.random() * notesNum);
+            const note = {
+              ...item,
+              colour: stickyNotesColours[noteColourIndex],
+            };
+
+            return <StickyNote note={note} key={i} />;
+          }}
+        />
+      </div>
+    </TodoCardUIBlock>
   );
 };
 

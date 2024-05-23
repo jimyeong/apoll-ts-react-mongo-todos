@@ -27,12 +27,14 @@ const SearchingDisplayPanel = <T,>({
         <div className="result__box">
           There is no user maching up with you, [Mr/Mrs.{keyword}] Would you
           sign up?
-          <Button>Sign up</Button>
+          <Button bg="#08c">Sign up</Button>
         </div>
       )}
-      <div className="result__box">
-        {list.length > 0 && <ListViewer list={list} renderer={renderer} />}
-      </div>
+      {list.length > 0 && (
+        <div className="result__box">
+          <ListViewer list={list} renderer={renderer} />
+        </div>
+      )}
     </div>
   );
 };
