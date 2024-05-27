@@ -1,9 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
-interface IstyledProps {
-  bgColour?: string;
-}
+import StickyNoteUIBlock from "./StickyNotes/StickyNoteUIBlock";
 
 type Note = {
   ownerId: string;
@@ -17,23 +14,27 @@ interface IStickyNode extends React.PropsWithChildren {
   note: Note;
 }
 
-const StickyNoteUIBlock = styled.div<IstyledProps>`
-  width: 20%;
-  float: left;
-  padding: 16px;
-  .inner__padding {
-    padding: 16px;
-    height: 160px;
-    background-color: ${(props) => props.bgColour};
-  }
-`;
-
 const StickyNote = ({ note, children }: IStickyNode) => {
   return (
-    <StickyNoteUIBlock bgColour={note.colour}>
+    <StickyNoteUIBlock bgcolour={note.colour}>
       <div className="inner__padding">{note.task}</div>
     </StickyNoteUIBlock>
   );
 };
 
-export default StickyNote;
+interface IAddAnotherStickyNote extends React.PropsWithChildren {
+  colour: string;
+}
+
+const AddAnotherStickyNote = ({ children, colour }: IAddAnotherStickyNote) => {
+  return (
+    <StickyNoteUIBlock bgcolour={colour}>
+      <div className="inner__padding" style={{ border: "3px dashed #333" }}>
+        <span className="dib icon__plus">+</span>
+        <span className="dib"></span>
+      </div>
+    </StickyNoteUIBlock>
+  );
+};
+
+export { StickyNote, AddAnotherStickyNote };

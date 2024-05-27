@@ -1,6 +1,6 @@
 import React from "react";
 import { ListViewer } from "../../ui";
-import { StickyNote } from "./ui";
+import { StickyNote, AddAnotherStickyNote } from "./ui";
 import AddTodoTask from "./containers/AddTodoTask";
 import styled from "styled-components";
 import { useQuery } from "@apollo/client";
@@ -40,10 +40,10 @@ const TodosPage = ({ children }: ITodos) => {
               ...item,
               colour: stickyNotesColours[noteColourIndex],
             };
-
             return <StickyNote note={note} key={i} />;
           }}
         />
+        <AddAnotherStickyNote colour="#f8f9f8" />
       </div>
     </TodoCardUIBlock>
   );

@@ -6,3 +6,7 @@ div {
   content: "";
   display: block;
 }
+
+.dib {
+  display: inline-block;
+}

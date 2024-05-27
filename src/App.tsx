@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import MainPage from "./pages/Main/MainPage";
 import FriendsPage from "./pages/Friends/FriendsPage";
@@ -10,12 +10,26 @@ import { Header } from "./pages/Todos/ui";
 import SeachingBar from "./ui/components/SearchingBars/SearchingBar";
 import styled from "styled-components";
 import WrapperContainer from "./ui/components/Layouts/Containers/WrapperContainer";
+import { useEffect } from "react";
+import { isLogined, setLogined } from "./storage/localStorage";
+import SignInPage from "./pages/SignIn/SignInPage";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const AppUIBlock = styled.div`
   position: relative;
 `;
 
 function App() {
+  const [appState, setAppState] = useState<{ user: null | any }>({
+    user: null,
+  });
+  useEffect(() => {
+    if (!isLogined()) {
+    }
+
+    return () => {};
+  }, []);
+  if (!appState.user) return <SignInPage />;
   return (
     <ChakraProvider>
       <AppUIBlock className="App">
