@@ -1,18 +1,19 @@
 type User = {
   userId: string;
   name: string;
+  token: string;
 };
 
-export const isLogined = () => {
-  const isLoggined = localStorage.getItem("user_id");
+export const isToken = () => {
+  const isLoggined = localStorage.getItem("token");
   if (isLoggined == "0" || isLoggined == "") return null;
   return isLoggined;
 };
 
-export const setLogined = (body: User) => {
-  localStorage.setItem(body.userId, "1");
+export const setToken = (body: User, token: string) => {
+  localStorage.setItem(body.token, token);
 };
 
-export const setLogout = (body: User) => {
-  localStorage.setItem(body.userId, "0");
+export const deleteToken = (body: User) => {
+  localStorage.setItem(body.token, "0");
 };

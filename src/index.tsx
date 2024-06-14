@@ -37,12 +37,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <GoogleOAuthProvider clientId={API}>
-        <ApolloProvider client={client}>
-          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-          <App />
-        </ApolloProvider>
-      </GoogleOAuthProvider>
+      <ApolloProvider client={client}>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        <App />
+      </ApolloProvider>
     ),
   },
 ]);

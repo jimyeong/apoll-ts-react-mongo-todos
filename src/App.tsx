@@ -11,9 +11,10 @@ import SeachingBar from "./ui/components/SearchingBars/SearchingBar";
 import styled from "styled-components";
 import WrapperContainer from "./ui/components/Layouts/Containers/WrapperContainer";
 import { useEffect } from "react";
-import { isLogined, setLogined } from "./storage/localStorage";
+import { isToken, setToken, deleteToken } from "./storage/localStorage";
 import SignInPage from "./pages/SignIn/SignInPage";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import PublicPage from "./pages/PublicPage/PublicPage";
 
 const AppUIBlock = styled.div`
   position: relative;
@@ -23,20 +24,23 @@ function App() {
   const [appState, setAppState] = useState<{ user: null | any }>({
     user: null,
   });
+
   useEffect(() => {
-    if (!isLogined()) {
+    if (!isToken()) {
     }
 
     return () => {};
   }, []);
-  if (!appState.user) return <SignInPage />;
   return (
     <ChakraProvider>
       <AppUIBlock className="App">
-        <WrapperContainer>
-          <MainPage />
-          <TodosPage />
-        </WrapperContainer>
+        {!isToken() && <PublicPage />}
+        {isToken() && (
+          <WrapperContainer>
+            <MainPage />
+            <TodosPage />
+          </WrapperContainer>
+        )}
       </AppUIBlock>
     </ChakraProvider>
   );
