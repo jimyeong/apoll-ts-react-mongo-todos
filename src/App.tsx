@@ -15,6 +15,7 @@ import { isToken, setToken, deleteToken } from "./storage/localStorage";
 import SignInPage from "./pages/SignIn/SignInPage";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import PublicPage from "./pages/PublicPage/PublicPage";
+import PagesContainer from "./pages/PagesContainer";
 
 const AppUIBlock = styled.div`
   position: relative;
@@ -26,6 +27,22 @@ function App() {
   });
 
   useEffect(() => {
+    console.log("@@executed?");
+    const onLogout = (e: StorageEvent) => {
+      console.log("@@hi,");
+      if (e.key == "token" && e.newValue == null) {
+        console.log("@@excuted");
+        window.location.reload();
+      }
+    };
+    // listeners
+    window.addEventListener("storage", onLogout);
+    return () => {
+      window.removeEventListener("storage", onLogout);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!isToken()) {
     }
 
@@ -34,13 +51,7 @@ function App() {
   return (
     <ChakraProvider>
       <AppUIBlock className="App">
-        {!isToken() && <PublicPage />}
-        {isToken() && (
-          <WrapperContainer>
-            <MainPage />
-            <TodosPage />
-          </WrapperContainer>
-        )}
+        <PagesContainer />
       </AppUIBlock>
     </ChakraProvider>
   );

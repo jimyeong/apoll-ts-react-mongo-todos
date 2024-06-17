@@ -4,6 +4,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ColorModeScript } from "@chakra-ui/react";
 import theme from "./theme";
+import LoginSuccessPage from "./pages/SignIn/LoginSuccessPage";
 
 import { createRoot } from "react-dom/client";
 
@@ -40,6 +41,15 @@ const router = createBrowserRouter([
       <ApolloProvider client={client}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <App />
+      </ApolloProvider>
+    ),
+  },
+  {
+    path: "/logined",
+    element: (
+      <ApolloProvider client={client}>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        <LoginSuccessPage />
       </ApolloProvider>
     ),
   },

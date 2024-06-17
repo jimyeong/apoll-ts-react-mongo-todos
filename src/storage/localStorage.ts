@@ -10,10 +10,10 @@ export const isToken = () => {
   return isLoggined;
 };
 
-export const setToken = (body: User, token: string) => {
-  localStorage.setItem(body.token, token);
+export const setToken = (token: string) => {
+  localStorage.setItem("token", token);
 };
 
-export const deleteToken = (body: User) => {
-  localStorage.setItem(body.token, "0");
+export const deleteToken = () => {
+  localStorage.removeItem("token");
 };
