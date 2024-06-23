@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import App from "./pages/App/App";
 import reportWebVitals from "./reportWebVitals";
 import { ColorModeScript } from "@chakra-ui/react";
 import theme from "./theme";
 import LoginSuccessPage from "./pages/SignIn/LoginSuccessPage";
+import AppContextProvider from "./pages/App/context/appContext";
 
 import { createRoot } from "react-dom/client";
 
@@ -31,16 +32,18 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+// login flow, router, google api
 const API = `${process.env.REACT_APP_CLIENT_ID}`;
-console.log("@@@API, ", API);
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <ApolloProvider client={client}>
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <App />
+        <AppContextProvider>
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+          <App />
+        </AppContextProvider>
       </ApolloProvider>
     ),
   },
@@ -48,8 +51,11 @@ const router = createBrowserRouter([
     path: "/logined",
     element: (
       <ApolloProvider client={client}>
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <LoginSuccessPage />
+        <AppContextProvider>
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+          <App />
+          <LoginSuccessPage />
+        </AppContextProvider>
       </ApolloProvider>
     ),
   },

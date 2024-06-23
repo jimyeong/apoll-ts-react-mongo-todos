@@ -7,6 +7,8 @@ import {
   useMatches,
   useSearchParams,
 } from "react-router-dom";
+import { useAppContext } from "../App/context/appContext";
+import { Types } from "../App/reducers/MainReducer";
 
 type OauthAuthentication = {
   access_token: string;
@@ -17,7 +19,8 @@ type OauthAuthentication = {
 };
 
 const LoginSuccessPage = ({ children }: React.PropsWithChildren) => {
-  const navigate = useNavigate();
+  const { navigate, appContextState, updateContextState } = useAppContext();
+
   const location = useLocation();
   const matches = useMatches();
   const [searchParam, setSearchParam] = useSearchParams();
@@ -33,12 +36,19 @@ const LoginSuccessPage = ({ children }: React.PropsWithChildren) => {
 
   useEffect(() => {
     const authentication = getAccessToken(location.hash.substring(1));
-    setToken(authentication.access_token);
-    navigate("/");
+    updateContextState({
+      type: Types.SET_TOKEN,
+      payload: authentication.access_token,
+    });
+
     return () => {};
   }, []);
 
   // getQueryString here
+  console.log("@@appContextState", appContextState);
+  if (appContextState.token) {
+    console.log("@@appContextState@@@@", appContextState);
+  }
 
   return <div>token achived</div>;
 };

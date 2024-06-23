@@ -4,25 +4,28 @@ import PublicPage from "./PublicPage/PublicPage";
 import WrapperContainer from "../ui/components/Layouts/Containers/WrapperContainer";
 import MainPage from "./Main/MainPage";
 import TodosPage from "./Todos/TodosPage";
+import { useAppContext } from "./App/context/appContext";
 
 const PagesContainer = ({ children }: React.PropsWithChildren) => {
+  const { appContextState, updateContextState, navigate } = useAppContext();
+
   return (
     <React.Fragment>
-      {!isToken() && <PublicPage />}
-      {isToken() && (
+      {!appContextState.token && <PublicPage />}
+      {appContextState.token && (
         <WrapperContainer>
           <MainPage />
           <TodosPage />
         </WrapperContainer>
       )}
-
+      {/* 
       <button
         onClick={() => {
           deleteToken();
         }}
       >
         delete token
-      </button>
+      </button> */}
     </React.Fragment>
   );
 };
