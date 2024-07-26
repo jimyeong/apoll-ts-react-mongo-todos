@@ -26,3 +26,12 @@ not making request from the client or just deal with the case from the server
 
 /// localstorage event listener
 if will be fired in other windows, or tabs not its own window which you were watching
+
+** Be cautious about this message **
+React hooks can be called only in react function or custom hook function.
+So that was why you can use async hooks in the function not in the useEffect
+
+Message: ** React Hook "useState" is called in function "handleCredentialResponse" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use" react-hooks/rules-of-hooks **
+
+21.07.24
+UseGoogleSignup hook has to work. get a token or fail flag

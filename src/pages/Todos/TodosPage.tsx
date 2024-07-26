@@ -26,7 +26,6 @@ const TodosPage = ({ children }: ITodos) => {
   const { loading, error, data } = useQuery(GET_TODO_LIST);
   if (error) return <div>{error.message}</div>;
   if (loading) return <Spinner />;
-  console.log("@@@ hello it's coming", data.getTodoList);
 
   return (
     <TodoCardUIBlock>
