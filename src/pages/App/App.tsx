@@ -11,7 +11,6 @@ import SeachingBar from "../../ui/components/SearchingBars/SearchingBar";
 import styled from "styled-components";
 import WrapperContainer from "../../ui/components/Layouts/Containers/WrapperContainer";
 import { useEffect, useReducer } from "react";
-import { isToken, setToken, deleteToken } from "../../storage/localStorage";
 import SignInPage from "../SignIn/SignInPage";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import PublicPage from "../PublicPage/PublicPage";
@@ -28,26 +27,13 @@ function App() {
   const [appState, appDispatch] = useReducer(MainReducer, appInitialState);
 
   useEffect(() => {
-    const onLogout = (e: StorageEvent) => {
-      if (e.key == "token" && e.newValue == null) {
-        window.location.reload();
-      }
-    };
-    // listeners
-    window.addEventListener("storage", onLogout);
-    return () => {
-      window.removeEventListener("storage", onLogout);
-    };
-  }, []);
-  console.log("@@@Appstate", appState);
-
-  useEffect(() => {
     return () => {};
   }, []);
 
   return (
     <ChakraProvider>
       <AppUIBlock className="App">
+        <Header />
         <PagesContainer />
       </AppUIBlock>
     </ChakraProvider>

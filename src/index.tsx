@@ -9,12 +9,7 @@ import AppContextProvider from "./pages/App/context/appContext";
 
 import { createRoot } from "react-dom/client";
 
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
-} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import "./index.css";
 
 // 1. import `ChakraProvider` component
@@ -35,36 +30,44 @@ const client = new ApolloClient({
 // login flow, router, google api
 const API = `${process.env.REACT_APP_CLIENT_ID}`;
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <ApolloProvider client={client}>
-        <AppContextProvider>
-          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-          <App />
-        </AppContextProvider>
-      </ApolloProvider>
-    ),
-  },
-  {
-    path: "/logined",
-    element: (
-      <ApolloProvider client={client}>
-        <AppContextProvider>
-          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-          <App />
-          <LoginSuccessPage />
-        </AppContextProvider>
-      </ApolloProvider>
-    ),
-  },
-]);
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: (
+//       <ApolloProvider client={client}>
+//         <AppContextProvider>
+//           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+//           <App />
+//         </AppContextProvider>
+//       </ApolloProvider>
+//     ),
+//   },
+//   {
+//     path: "/logined",
+//     element: (
+//       <ApolloProvider client={client}>
+//         <AppContextProvider>
+//           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+//           <App />
+//           <LoginSuccessPage />
+//         </AppContextProvider>
+//       </ApolloProvider>
+//     ),
+//   },
+// ]);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-root.render(<RouterProvider router={router} />);
+root.render(
+  <ApolloProvider client={client}>
+    <Router>
+      <AppContextProvider>
+        <App />
+      </AppContextProvider>
+    </Router>
+  </ApolloProvider>
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

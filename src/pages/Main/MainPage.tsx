@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 // import { SearchIcon } from "../../assets/icons";
 import { SearchIcon } from "@chakra-ui/icons";
+import TodosPage from "../Todos/TodosPage";
 
 const MainUIBlock = styled.div`
   & input {
@@ -29,6 +30,7 @@ const MainPage = ({ children }: React.PropsWithChildren) => {
         </InputLeftElement>
         <UserSearchingContainer />
       </InputGroup>
+      <TodosPage />
     </MainUIBlock>
   );
 };

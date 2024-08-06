@@ -15,6 +15,7 @@ import TextInput from "./components/InputGroups/TextInput";
 
 import SeachingBar from "./components/SearchingBars/SearchingBar";
 import SearchingDisplayPanel from "./components/SearchingBars/SearchingDisplayPanel";
+import { Header } from "../pages/Todos/ui";
 
 export {
   ListViewer,
@@ -23,5 +24,6 @@ export {
   TextInput,
   SeachingBar,
   SearchingDisplayPanel,
+  Header,
 };
 export type { ITextInput };

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { setToken } from "../../storage/localStorage";
 import CommonHelper from "../../helper/CommonHelpers";
 import {
   useNavigate,

@@ -10,3 +10,7 @@ div {
 .dib {
   display: inline-block;
 }
+
+.chakra-ui-light {
+  padding-top: 52px;
+}

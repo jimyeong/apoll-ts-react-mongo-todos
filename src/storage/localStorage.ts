@@ -1,19 +1,20 @@
-type User = {
-  userId: string;
-  name: string;
-  token: string;
+const getFamilyName = () => {
+  return localStorage.getItem("familyName");
+};
+const getSurName = () => {
+  return localStorage.getItem("givenName");
+};
+const getEmail = () => {
+  return localStorage.getItem("email");
+};
+const getName = () => {
+  return localStorage.getItem("name");
+};
+const getPicture = () => {
+  return localStorage.getItem("userPicture");
+};
+const isLogin = () => {
+  return localStorage.getItem("login");
 };
 
-export const isToken = () => {
-  const isLoggined = localStorage.getItem("token");
-  if (isLoggined == "0" || isLoggined == "") return null;
-  return isLoggined;
-};
-
-export const setToken = (token: string) => {
-  localStorage.setItem("token", token);
-};
-
-export const deleteToken = () => {
-  localStorage.removeItem("token");
-};
+export { getFamilyName, getSurName, getEmail, getName, getPicture, isLogin };

@@ -25,7 +25,6 @@ const SignInPage = ({ children }: SignInPage) => {
   const { accessToken, error: tokenError } = useGoogleSignIn();
   const [user, setUser] = useState();
   // const [accessToken, setAccessToken] = useState<null | string>(null);
-  console.log("@@accessToken??", accessToken);
   const fetchUser = async (accessToken: string) => {
     try {
       const response = await fetch(`http://localhost:4000/auth/google`, {
@@ -39,6 +38,18 @@ const SignInPage = ({ children }: SignInPage) => {
 
       const data = await response.json();
       console.log("@@@data", data);
+      if (data.code == "200") {
+        localStorage.setItem("login", "1");
+        localStorage.setItem("userPicture", data.payload.picture);
+        localStorage.setItem("familyName", data.payload.family_name);
+        localStorage.setItem("givenName", data.payload.given_name);
+        localStorage.setItem("email", data.payload.email);
+        localStorage.setItem(
+          "name",
+          data.payload.family_name + data.payload.given_name
+        );
+      }
+
       return data;
     } catch (error) {
       console.log("@@error");

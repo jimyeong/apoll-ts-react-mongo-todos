@@ -8,6 +8,7 @@ import { GET_TODO_LIST } from "./schemes/Todos";
 import { Spinner } from "@chakra-ui/react";
 import { Todo } from "./schemes/Todos";
 import { stickyNotesColours } from "../../config/stickyNotesColours";
+import { isLogin } from "../../storage/localStorage";
 
 const TodoCardUIBlock = styled.div``;
 
@@ -42,7 +43,7 @@ const TodosPage = ({ children }: ITodos) => {
             return <StickyNote note={note} key={i} />;
           }}
         />
-        <AddAnotherStickyNote colour="#f8f9f8" />
+        {isLogin() == "1" && <AddAnotherStickyNote colour="#f8f9f8" />}
       </div>
     </TodoCardUIBlock>
   );
