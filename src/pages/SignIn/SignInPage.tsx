@@ -22,6 +22,7 @@ export const SIGN_UP_GOOGLE = gql`
 `;
 
 const SignInPage = ({ children }: SignInPage) => {
+  const navigate = useNavigate();
   const { accessToken, error: tokenError } = useGoogleSignIn();
   const [user, setUser] = useState();
   // const [accessToken, setAccessToken] = useState<null | string>(null);
@@ -48,6 +49,7 @@ const SignInPage = ({ children }: SignInPage) => {
           "name",
           data.payload.family_name + data.payload.given_name
         );
+        // navigate("/", { state: { isLogin: true } });
       }
 
       return data;
@@ -70,9 +72,6 @@ const SignInPage = ({ children }: SignInPage) => {
 
   // const onClick: React.MouseEventHandler<HTMLButtonElement> = (e) => login();
 
-  useEffect(() => {
-    return () => {};
-  }, []);
   return (
     <div>
       <Stack direction="row" spacing={4}>

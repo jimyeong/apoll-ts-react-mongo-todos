@@ -21,10 +21,6 @@ const Header = ({ children }: React.PropsWithChildren) => {
   const isLogined = isLogin();
   console.log("getPicture", getPicture());
 
-  useEffect(() => {
-    return () => {};
-  }, [isLogined]);
-
   return (
     <HeaderBlock>
       <Box pos="fixed" top={0} left={0} w="100%" h="62px" bg="tomato">

@@ -16,5 +16,21 @@ const getPicture = () => {
 const isLogin = () => {
   return localStorage.getItem("login");
 };
+const setLogout = () => {
+  localStorage.setItem("login", "-1");
+  localStorage.setItem("familyName", "");
+  localStorage.setItem("givenName", "");
+  localStorage.setItem("email", "");
+  localStorage.setItem("name", "");
+  localStorage.setItem("userPicture", "");
+};
 
-export { getFamilyName, getSurName, getEmail, getName, getPicture, isLogin };
+export {
+  getFamilyName,
+  getSurName,
+  getEmail,
+  getName,
+  getPicture,
+  isLogin,
+  setLogout,
+};

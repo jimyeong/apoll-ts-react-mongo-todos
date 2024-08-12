@@ -2,7 +2,7 @@ import React, { ChangeEventHandler, useState } from "react";
 import { SeachingBar, SearchingDisplayPanel, ListViewer } from "../../../ui";
 import useInputText from "../../../hooks/useInputText";
 import { GET_SEARCHING_RESULT } from "../schemes/Users";
-import { useQuery } from "@apollo/client";
+import { ApolloError, useQuery } from "@apollo/client";
 import { Text } from "@chakra-ui/react";
 import { Spinner } from "@chakra-ui/react";
 import type { Friend } from "../../Friends/FriendsPage";
@@ -46,7 +46,14 @@ const UserSearchingContainer = ({ children }: IUserSearchingContainer) => {
     searchingState.id_finder != "" && searchingState.selectedId == "";
   const { loading, error, data } = useQuery(GET_SEARCHING_RESULT, {
     variables: { keyword: searchingState.id_finder },
+    errorPolicy: "all",
+    onError: (error: ApolloError) => {
+      console.log("@@error", error.message);
+    },
   });
+  console.log("@@what is this?", error);
+  console.log("@@data?", data);
+
   const onChange: ChangeEventHandler = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {

@@ -26,10 +26,6 @@ AppUIBlock as React.ReactNode;
 function App() {
   const [appState, appDispatch] = useReducer(MainReducer, appInitialState);
 
-  useEffect(() => {
-    return () => {};
-  }, []);
-
   return (
     <ChakraProvider>
       <AppUIBlock className="App">

@@ -5,27 +5,23 @@ import MainPage from "./Main/MainPage";
 import TodosPage from "./Todos/TodosPage";
 import { useAppContext } from "./App/context/appContext";
 import { isLogin } from "../storage/localStorage";
+import { Routes, Route } from "react-router-dom";
+import { ProtectedRouter } from "../routers";
 
 const PagesContainer = ({ children }: React.PropsWithChildren) => {
   const { appContextState, updateContextState, navigate } = useAppContext();
 
   return (
     <React.Fragment>
-      {isLogin() !== "1" && <PublicPage />}
-      {isLogin() == "1" && (
-        <WrapperContainer>
-          <MainPage />
-        </WrapperContainer>
-      )}
-
-      {/* 
-      <button
-        onClick={() => {
-          deleteToken();
-        }}
-      >
-        delete token
-      </button> */}
+      <WrapperContainer>
+        <Routes>
+          <Route path="/login" element={<PublicPage />} />
+          <Route
+            path="/"
+            element={<ProtectedRouter Component={<MainPage />} />}
+          />
+        </Routes>
+      </WrapperContainer>
     </React.Fragment>
   );
 };

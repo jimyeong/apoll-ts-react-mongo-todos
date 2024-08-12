@@ -35,3 +35,22 @@ Message: ** React Hook "useState" is called in function "handleCredentialRespons
 
 21.07.24
 UseGoogleSignup hook has to work. get a token or fail flag
+
+// error handling
+server side's messages don't show up.
+
+regarding refresh token handling,
+refer to Retrying operations in the error handling section.
+https://www.apollographql.com/docs/react/data/error-handling
+
+// private router
+https://stackoverflow.com/questions/54329486/how-to-correctly-redirect-after-catching-authentication-failure-with-apollo-and
+
+```
+
+for the cookies to be sent to the server
+const httpLink = new HttpLink({
+  uri: "http://localhost:4000/graphql",
+  credentials: "include",
+});
+```

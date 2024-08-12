@@ -2,10 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./pages/App/App";
 import reportWebVitals from "./reportWebVitals";
-import { ColorModeScript } from "@chakra-ui/react";
-import theme from "./theme";
-import LoginSuccessPage from "./pages/SignIn/LoginSuccessPage";
+import { httpLink } from "./pages/apollo/HTTPLinks";
+import { errorLink } from "./pages/apollo/ErrorLink";
 import AppContextProvider from "./pages/App/context/appContext";
+
+import { onError } from "@apollo/client/link/error";
 
 import { createRoot } from "react-dom/client";
 
@@ -19,42 +20,20 @@ import {
   gql,
   ApolloProvider,
   InMemoryCache,
+  HttpLink,
+  from,
 } from "@apollo/client";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_SERVER,
   cache: new InMemoryCache(),
+  link: from([errorLink, httpLink]),
+  credentials: "include",
 });
 
 // login flow, router, google api
 const API = `${process.env.REACT_APP_CLIENT_ID}`;
-
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: (
-//       <ApolloProvider client={client}>
-//         <AppContextProvider>
-//           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-//           <App />
-//         </AppContextProvider>
-//       </ApolloProvider>
-//     ),
-//   },
-//   {
-//     path: "/logined",
-//     element: (
-//       <ApolloProvider client={client}>
-//         <AppContextProvider>
-//           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-//           <App />
-//           <LoginSuccessPage />
-//         </AppContextProvider>
-//       </ApolloProvider>
-//     ),
-//   },
-// ]);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

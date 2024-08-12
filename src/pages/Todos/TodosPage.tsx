@@ -9,6 +9,7 @@ import { Spinner } from "@chakra-ui/react";
 import { Todo } from "./schemes/Todos";
 import { stickyNotesColours } from "../../config/stickyNotesColours";
 import { isLogin } from "../../storage/localStorage";
+import { constants } from "../../constants";
 
 const TodoCardUIBlock = styled.div``;
 
@@ -24,7 +25,15 @@ const todos = [
   },
 ];
 const TodosPage = ({ children }: ITodos) => {
-  const { loading, error, data } = useQuery(GET_TODO_LIST);
+  const { loading, error, data } = useQuery(GET_TODO_LIST, {
+    errorPolicy: "all",
+    onError: (error) => {
+      console.log("@@todos what's the error", error.message);
+      if (error.message.includes(constants.Unauthorized)) {
+        window.location.href = "/signin";
+      }
+    },
+  });
   if (error) return <div>{error.message}</div>;
   if (loading) return <Spinner />;
 
