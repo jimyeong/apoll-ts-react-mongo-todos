@@ -25,6 +25,7 @@ const SignInPage = ({ children }: SignInPage) => {
   const navigate = useNavigate();
   const { accessToken, error: tokenError } = useGoogleSignIn();
   const [user, setUser] = useState();
+
   // const [accessToken, setAccessToken] = useState<null | string>(null);
   const fetchUser = async (accessToken: string) => {
     try {
@@ -38,7 +39,6 @@ const SignInPage = ({ children }: SignInPage) => {
       });
 
       const data = await response.json();
-      console.log("@@@data", data);
       if (data.code == "200") {
         localStorage.setItem("login", "1");
         localStorage.setItem("userPicture", data.payload.picture);
@@ -49,29 +49,23 @@ const SignInPage = ({ children }: SignInPage) => {
           "name",
           data.payload.family_name + data.payload.given_name
         );
-        // navigate("/", { state: { isLogin: true } });
+        navigate("/", { state: { from: "/login" } });
       }
 
       return data;
     } catch (error) {
-      console.log("@@error");
+      console.log("@@error", error);
     }
   };
-
   // const { loading, error, data } = useQuery(USER_AUTHENTICATE, {
   //   variables: { accessToken: accessToken },
   // });
-
   useEffect(() => {
     if (accessToken) {
       fetchUser(accessToken);
     }
-
     return () => {};
   }, [accessToken]);
-
-  // const onClick: React.MouseEventHandler<HTMLButtonElement> = (e) => login();
-
   return (
     <div>
       <Stack direction="row" spacing={4}>

@@ -18,13 +18,25 @@ import PagesContainer from "../PagesContainer";
 import MainReducer from "./reducers/MainReducer";
 import { appInitialState } from "./reducers/MainReducer";
 import AppContextProvider from "./context/appContext";
+import { useLocation } from "react-router-dom";
+import { isLogin } from "../../storage/localStorage";
+import { useAppContext } from "./context/appContext";
 
 const AppUIBlock = styled.div`
   position: relative;
 `;
 AppUIBlock as React.ReactNode;
 function App() {
+  const { appContextState, updateContextState, navigate } = useAppContext();
+
+  const location = useLocation();
   const [appState, appDispatch] = useReducer(MainReducer, appInitialState);
+  useEffect(() => {
+    console.log("appState", location);
+    location.state.from === "/login" &&
+      isLogin() === "1" &&
+      updateContextState({ type: "LOGIN" });
+  }, [appState]);
 
   return (
     <ChakraProvider>

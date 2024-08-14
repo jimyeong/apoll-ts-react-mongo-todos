@@ -16,7 +16,7 @@ const getPicture = () => {
 const isLogin = () => {
   return localStorage.getItem("login");
 };
-const setLogout = () => {
+const logout = () => {
   localStorage.setItem("login", "-1");
   localStorage.setItem("familyName", "");
   localStorage.setItem("givenName", "");
@@ -32,5 +32,5 @@ export {
   getName,
   getPicture,
   isLogin,
-  setLogout,
+  logout,
 };

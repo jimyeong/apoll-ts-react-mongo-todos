@@ -30,7 +30,6 @@ const TodosPage = ({ children }: ITodos) => {
     onError: (error) => {
       console.log("@@todos what's the error", error.message);
       if (error.message.includes(constants.Unauthorized)) {
-        window.location.href = "/signin";
       }
     },
   });

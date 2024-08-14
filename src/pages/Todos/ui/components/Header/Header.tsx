@@ -1,15 +1,38 @@
 import React, { useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import styled from "styled-components";
-import { getPicture, isLogin } from "../../../../../storage/localStorage";
+import {
+  getPicture,
+  isLogin,
+  logout,
+} from "../../../../../storage/localStorage";
 import WrapperContainer from "../../../../../ui/components/Layouts/Containers/WrapperContainer";
 import { IoIosLogOut } from "react-icons/io";
+import CommonHelper from "../../../../../helper/CommonHelpers";
+import { useAppContext } from "../../../../App/context/appContext";
 
 const HeaderBlock = styled.header`
   .profile__box {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .container {
-    margin-top: 8px;
+  .btn__logout {
+    color: white;
+    &:hover {
+      color: CommonHelper.shadeColor("tomato", 20);
+    }
+  }
+  .btn__wrapper {
+    margin-left: 10px;
+  }
+  .header__container {
+    margin-top: 0;
+    height: 100%;
   }
   .profile__img {
     border-radius: 50%;
@@ -18,21 +41,36 @@ const HeaderBlock = styled.header`
 `;
 
 const Header = ({ children }: React.PropsWithChildren) => {
+  const { appContextState, updateContextState, navigate } = useAppContext();
+
   const isLogined = isLogin();
   console.log("getPicture", getPicture());
+  const handleLogout = () => {
+    logout();
+    updateContextState({ type: "LOGOUT" });
+  };
 
   return (
     <HeaderBlock>
-      <Box pos="fixed" top={0} left={0} w="100%" h="62px" bg="tomato">
+      <Box
+        zIndex={1000}
+        pos="fixed"
+        top={0}
+        left={0}
+        w="100%"
+        h="62px"
+        bg="tomato"
+      >
         {isLogined == "1" && (
-          <WrapperContainer className="container">
+          <WrapperContainer className="container por header__container">
             <div className="profile__box">
               <img className="profile__img" src={getPicture() || ""} alt="" />
+              <div className="btn__wrapper">
+                <button onClick={handleLogout} className="btn__logout">
+                  <IoIosLogOut /> LogOut
+                </button>
+              </div>
             </div>
-            <button>
-              {" "}
-              <IoIosLogOut /> LogOut
-            </button>
           </WrapperContainer>
         )}
       </Box>

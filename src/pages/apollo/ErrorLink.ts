@@ -1,7 +1,7 @@
 import { onError } from "@apollo/client/link/error";
 import { constants } from "../../constants";
 import { useNavigate } from "react-router-dom";
-import { setLogout } from "../../storage/localStorage";
+import { logout } from "../../storage/localStorage";
 
 // how to useNavigation in apollo client
 export const errorLink = onError(
@@ -11,6 +11,8 @@ export const errorLink = onError(
       graphQLErrors.forEach(({ message, locations, path, extensions }) => {
         if (extensions.statusCode == 401) {
           message = constants.Unauthorized;
+          logout();
+
           // setLogout();
           // retry with a refresh token
         }

@@ -17,21 +17,24 @@ export function useGoogleSignIn() {
     }
   }
   useEffect(() => {
-    // @ts-ignore comment
-    google.accounts.id.initialize({
-      client_id:
-        "974453546502-1f3bglv0mh3aj0cnop61ui2l6qbnjddb.apps.googleusercontent.com",
-      callback: handleCredentialResponse,
-    });
-    // @ts-ignore comment
-    google.accounts.id.renderButton(
-      document.getElementById("buttonDiv"),
-      { theme: "outline", size: "large", ux_mode: "redirect" } // customization attributes
-    );
-    // @ts-ignore comment
-    google.accounts.id.prompt();
+    if (google) {
+      // @ts-ignore comment
+      google.accounts.id.initialize({
+        client_id:
+          "974453546502-1f3bglv0mh3aj0cnop61ui2l6qbnjddb.apps.googleusercontent.com",
+        callback: handleCredentialResponse,
+      });
+      console.log("@@has it been executed", google);
+      // @ts-ignore comment
+      google.accounts.id.renderButton(
+        document.getElementById("buttonDiv"),
+        { theme: "outline", size: "large", ux_mode: "redirect" } // customization attributes
+      );
+      // @ts-ignore comment
+      google.accounts.id.prompt();
+    }
 
     return () => {};
-  }, []);
+  }, [google]);
   return { accessToken, error };
 }
