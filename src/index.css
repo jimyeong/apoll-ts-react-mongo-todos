@@ -1,3 +1,35 @@
+.ft-sp__n {
+  font-family: "Edu VIC WA NT Beginner", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+.ft-sp__b {
+  font-family: "Edu VIC WA NT Beginner", cursive;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+.fz-1 {
+  font-size: 2rem;
+}
+
+.fz-2 {
+  font-size: 1.8rem;
+}
+
+.fz-3 {
+  font-size: 1.6rem;
+}
+
+.fz-4 {
+  font-size: 1.4rem;
+}
+
+.fz-5 {
+  font-size: 1.2rem;
+}
+
 div {
   box-sizing: border-box;
 }
@@ -16,4 +48,13 @@ div {
 }
 .por {
   position: relative;
+}
+textarea {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  resize: none;
+}
+textarea:focus {
+  outline: none;
 }

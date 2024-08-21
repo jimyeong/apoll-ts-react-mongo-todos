@@ -9,6 +9,7 @@ export const GET_TODO_LIST = gql`
       createdAt
       updatedAt
       taskId
+      colour
     }
   }
 `;
@@ -21,6 +22,7 @@ type Todo = {
   createdAt: Date;
   updatedAt: Date;
   taskId: string;
+  colour: string
 };
 
 export type { Todo };

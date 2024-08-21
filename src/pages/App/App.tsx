@@ -31,12 +31,13 @@ function App() {
 
   const location = useLocation();
   const [appState, appDispatch] = useReducer(MainReducer, appInitialState);
+  console.log("@@appContextState", appContextState);
   useEffect(() => {
     console.log("appState", location);
-    location.state.from === "/login" &&
+    location.state?.from === "/login" &&
       isLogin() === "1" &&
       updateContextState({ type: "LOGIN" });
-  }, [appState]);
+  }, [appContextState]);
 
   return (
     <ChakraProvider>

@@ -16,6 +16,7 @@ export enum Types {
 export type AppMainPayload = {
   [Types.SET_TOKEN]: string;
   [Types.LOG_OUT]: boolean;
+  [Types.LOG_IN]: boolean;
 };
 
 export type TypeInitialState = {
@@ -37,7 +38,14 @@ const MainReducer: Reducer<
         token: action.payload,
       };
     }
+    case Types.LOG_IN: {
+      return {
+        ...prevState,
+        login: true,
+      };
+    }
     case Types.LOG_OUT: {
+      console.log("excueted logout");
       return {
         ...prevState,
         login: false,

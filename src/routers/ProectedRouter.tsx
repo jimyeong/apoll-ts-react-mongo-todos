@@ -1,5 +1,5 @@
 import { Route } from "react-router-dom";
-import { isLogin } from "../storage/localStorage";
+import { isLogin, logout } from "../storage/localStorage";
 import { Navigate } from "react-router-dom";
 import React, { FunctionComponent, ReactElement } from "react";
 
@@ -15,6 +15,7 @@ const ProtectedRouter = ({
   const auth = isLogin();
   console.log("@@isAuthenticated", isLogin());
   if (auth === "1") return Component;
+  logout();
   return <Navigate to="/login" />;
 };
 
