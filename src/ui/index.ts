@@ -16,6 +16,8 @@ import TextInput from "./components/InputGroups/TextInput";
 import SeachingBar from "./components/SearchingBars/SearchingBar";
 import SearchingDisplayPanel from "./components/SearchingBars/SearchingDisplayPanel";
 import { Header } from "../pages/Todos/ui";
+import Pharagraph from "./components/Pharagraphs/Paragraph";
+import PaddingContainer from "./components/Padding/Padding";
 
 export {
   ListViewer,
@@ -25,5 +27,7 @@ export {
   SeachingBar,
   SearchingDisplayPanel,
   Header,
+  PaddingContainer,
+  Pharagraph,
 };
 export type { ITextInput };

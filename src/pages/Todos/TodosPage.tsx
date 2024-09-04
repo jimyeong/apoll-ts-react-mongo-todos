@@ -16,25 +16,48 @@ import { stickyNotesColours } from "../../config/stickyNotesColours";
 import { getEmail, isLogin } from "../../storage/localStorage";
 import { constants } from "../../constants";
 import { CREATE_POST } from "./apis";
+import { Button, ButtonGroup } from "@chakra-ui/react";
 
 const TodoCardUIBlock = styled.div``;
+type EditableNote = Todo & { isEditing: boolean; index: number };
 
 interface ITodos extends React.PropsWithChildren {}
 const TodosPage = ({ children }: ITodos) => {
-  const { loading, error, data } = useQuery(GET_TODO_LIST, {
-    errorPolicy: "all",
-    onError: (error) => {
-      if (error.message.includes(constants.Unauthorized)) {
-      }
-    },
-  });
-
   const [newPost, setNewPost] = useState({
     isEditing: false,
     id: "new_post",
     text: "",
   });
+  const [todoList, setTodoList] = useState<EditableNote[]>([]);
+  const { loading, error, data } = useQuery(GET_TODO_LIST, {
+    errorPolicy: "all",
 
+    onCompleted: (data) => {
+      const { getTodoList: list } = data;
+      setTodoList(
+        list.map((item: Todo, index: number) => {
+          return {
+            index,
+            ...item,
+            isEditing: false,
+          };
+        })
+      );
+    },
+    onError: (error) => {
+      if (error.message.includes(constants.Unauthorized)) {
+      }
+    },
+  });
+  const [updatePost, {}] = useMutation(CREATE_POST);
+  const onClickEditMemo = useCallback(
+    (idx: number) => {
+      const newList = todoList;
+      newList[idx].isEditing = true;
+      setTodoList([...newList]);
+    },
+    [todoList]
+  );
   const onClickAddMemo: MouseEventHandler<HTMLDivElement> = useCallback(
     (e) => {
       e.stopPropagation();
@@ -55,21 +78,18 @@ const TodosPage = ({ children }: ITodos) => {
     },
     [newPost]
   );
-  const onConfirmMemo: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
+  const onConfirmMemo = useCallback(
+    (message: string) => {
       // useMuation can't be used within useCallback
-      e.stopPropagation();
-      const [mutationFunction, { loading, error, data }] = useMutation(
-        CREATE_POST,
-        {
-          variables: {
-            task: newPost.text,
-            ownerId: getEmail(),
-            urgency: 1,
-            importance: 1,
-          },
-        }
-      );
+
+      updatePost({
+        variables: {
+          task: message,
+          ownerId: getEmail(),
+          urgency: 1,
+          importance: 1,
+        },
+      });
 
       setNewPost({
         ...newPost,
@@ -78,22 +98,34 @@ const TodosPage = ({ children }: ITodos) => {
     },
     [newPost]
   );
+  const onClickCancelEditing = useCallback(
+    (idx: number) => {
+      const newList = todoList;
+      newList[idx].isEditing = !todoList[idx].isEditing;
+      setTodoList([...newList]);
+    },
+    [todoList]
+  );
 
   if (error) return <div>{error.message}</div>;
   if (loading) return <Spinner />;
-
   return (
     <TodoCardUIBlock>
       <div className="clearfix">
-        <ListViewer
-          list={data.getTodoList}
-          renderer={(item: Todo, i) => {
-            const note = { ...item };
-            return <StickyNote note={note} key={i} />;
-          }}
-        />
+        {todoList.map((item: EditableNote, i: number) => {
+          return (
+            <StickyNote
+              onClickCancelEditing={onClickCancelEditing}
+              onClickEditMemo={onClickEditMemo}
+              note={item}
+              key={i}
+            />
+          );
+        })}
+
         {isLogin() == "1" && (
           <AddAnotherStickyNote
+            confirmHandler={onConfirmMemo}
             addMemoHandler={onClickAddMemo}
             cancelMemoHandler={onClickCancelMemo}
             colour="#f8f9f8"

@@ -3,23 +3,77 @@ import styled from "styled-components";
 import StickyNoteUIBlock from "./StickyNotes/StickyNoteUIBlock";
 import useInputText from "../../../../hooks/useInputText";
 import { ButtonGroup, Button, IconButton } from "@chakra-ui/react";
+import PrivateDisplay from "../../../../ui/components/PrivateDisplay/PrivateDisplay";
+import { getEmail } from "../../../../storage/localStorage";
+import { PaddingContainer, Pharagraph } from "../../../../ui";
 
 type Note = {
+  index: number;
+  id: string;
   ownerId: string;
   task: string;
   colour: string;
   updatedAt: Date;
   createdAt: Date;
+  isEditing: boolean;
 };
 
 interface IStickyNode extends React.PropsWithChildren {
   note: Note;
+  onClickEditMemo: (idx: number) => void;
+  onClickCancelEditing: (idx: number) => void;
 }
 
-const StickyNote = ({ note, children }: IStickyNode) => {
+const StickyNote = ({
+  onClickCancelEditing,
+  onClickEditMemo,
+  note,
+  children,
+}: IStickyNode) => {
+  if (note.isEditing) {
+    return (
+      <StickyNoteUIBlock bgcolour={note.colour}>
+        <div className="inner__padding">
+          <textarea
+            className="text__area ft-sp__b"
+            name={note.id}
+            value={note.task}
+            id=""
+          ></textarea>
+          <ButtonGroup size="sm" isAttached variant="outline">
+            <Button>Confirm</Button>
+            <Button
+              onClick={() => {
+                onClickCancelEditing(note.index);
+              }}
+            >
+              Cancel
+            </Button>
+          </ButtonGroup>
+        </div>
+      </StickyNoteUIBlock>
+    );
+  }
   return (
     <StickyNoteUIBlock bgcolour={note.colour}>
-      <div className="ft-sp__b inner__padding">{note.task}</div>
+      <div className="inner__padding">
+        <p className="ft-sp__b">{note.task}</p>
+        <PrivateDisplay>
+          {getEmail() == note.ownerId && (
+            <div className="button__group">
+              <Button className="btn__delete">delete</Button>
+              <Button
+                onClick={() => {
+                  onClickEditMemo(note.index);
+                }}
+                className="btn__edit"
+              >
+                edit
+              </Button>
+            </div>
+          )}
+        </PrivateDisplay>
+      </div>
     </StickyNoteUIBlock>
   );
 };
@@ -28,6 +82,7 @@ interface IAddAnotherStickyNote extends React.PropsWithChildren {
   colour: string;
   addMemoHandler: MouseEventHandler<HTMLDivElement>;
   cancelMemoHandler: MouseEventHandler<HTMLButtonElement>;
+  confirmHandler: (message: string) => void;
   isEditing: boolean;
 }
 
@@ -35,6 +90,7 @@ const AddAnotherStickyNote = ({
   isEditing,
   addMemoHandler,
   cancelMemoHandler,
+  confirmHandler,
   children,
   colour,
 }: IAddAnotherStickyNote) => {
@@ -49,11 +105,13 @@ const AddAnotherStickyNote = ({
     },
     [isEditing]
   );
-  const onClickConfirm = useCallback(
-    (e: MouseEventHandler<HTMLButtonElement>) => {
+  const onClickConfirm: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      e.stopPropagation();
+      confirmHandler(values.new_post);
       onReset();
     },
-    [isEditing]
+    [isEditing, values.new_post]
   );
   console.log(values);
   if (!isEditing) {
@@ -77,7 +135,7 @@ const AddAnotherStickyNote = ({
           id=""
         ></textarea>
         <ButtonGroup size="sm" isAttached variant="outline">
-          <Button>Confirm</Button>
+          <Button onClick={onClickConfirm}>Confirm</Button>
           <Button onClick={onClickDismiss}>Cancel</Button>
         </ButtonGroup>
       </div>

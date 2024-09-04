@@ -2,6 +2,7 @@ import { gql } from "@apollo/client";
 export const GET_TODO_LIST = gql`
   query {
     getTodoList {
+      id
       ownerId
       task
       urgency
@@ -15,6 +16,7 @@ export const GET_TODO_LIST = gql`
 `;
 
 type Todo = {
+  id: string;
   ownerId: string;
   task: string;
   urgency: number;
@@ -22,7 +24,7 @@ type Todo = {
   createdAt: Date;
   updatedAt: Date;
   taskId: string;
-  colour: string
+  colour: string;
 };
 
 export type { Todo };

@@ -4,6 +4,7 @@ import App from "./pages/App/App";
 import reportWebVitals from "./reportWebVitals";
 import { httpLink } from "./pages/apollo/HTTPLinks";
 import { errorLink } from "./pages/apollo/ErrorLink";
+import { socketLink } from "./pages/apollo/SocketLink";
 import AppContextProvider from "./pages/App/context/appContext";
 
 import { onError } from "@apollo/client/link/error";
@@ -28,7 +29,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 const client = new ApolloClient({
   uri: process.env.REACT_APP_SERVER,
   cache: new InMemoryCache(),
-  link: from([errorLink, httpLink]),
+  link: from([errorLink, httpLink, socketLink]),
   credentials: "include",
 });
 

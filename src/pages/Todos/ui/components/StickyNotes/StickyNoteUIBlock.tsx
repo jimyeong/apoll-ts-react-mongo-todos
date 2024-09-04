@@ -9,11 +9,16 @@ interface IstyledProps {
 export type { IstyledProps };
 
 const StickyNoteUIBlock = styled.div<IstyledProps>`
-  width: 20%;
+  width: 25%;
   float: left;
   padding: 8px;
   text-align: center;
+  button + button {
+    margin-left: 12px;
+  }
   .inner__padding {
+    box-sizing: border-box;
+    position: relative;
     cursor: pointer;
     padding: 16px;
     height: 160px;
@@ -21,6 +26,11 @@ const StickyNoteUIBlock = styled.div<IstyledProps>`
     &:hover {
       background-color: ${(props) => darken(0.15, props.bgcolour)};
     }
+  }
+  .button__group {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
   }
   .icon__plus {
     font-size: 30px;

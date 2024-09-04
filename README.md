@@ -54,3 +54,21 @@ const httpLink = new HttpLink({
   credentials: "include",
 });
 ```
+
+```
+
+  <ListViewer
+          list={data.getTodoList}
+          renderer={(item: Todo, i) => {
+            const note = { ...item };
+            return (
+              <StickyNote
+                onClickEditMemo={onClickEditMemo}
+                note={note}
+                key={i}
+              />
+            );
+          }}
+        />
+
+```

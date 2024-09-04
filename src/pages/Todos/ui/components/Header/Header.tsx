@@ -42,13 +42,10 @@ const HeaderBlock = styled.header`
 
 const Header = ({ children }: React.PropsWithChildren) => {
   const { appContextState, updateContextState, navigate } = useAppContext();
-  console.log("@@appContextState!@#!@#!@#", appContextState);
 
   const isLogined = isLogin();
-  console.log("getPicture", getPicture());
   const handleLogout = () => {
     logout();
-    console.log("@@@hi is this being excuted?");
     updateContextState({ type: "LOG_OUT" });
   };
 

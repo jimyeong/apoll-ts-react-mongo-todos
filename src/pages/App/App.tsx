@@ -31,7 +31,6 @@ function App() {
 
   const location = useLocation();
   const [appState, appDispatch] = useReducer(MainReducer, appInitialState);
-  console.log("@@appContextState", appContextState);
   useEffect(() => {
     console.log("appState", location);
     location.state?.from === "/login" &&
