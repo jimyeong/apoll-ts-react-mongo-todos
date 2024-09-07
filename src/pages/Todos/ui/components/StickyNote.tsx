@@ -22,14 +22,27 @@ interface IStickyNode extends React.PropsWithChildren {
   note: Note;
   onClickEditMemo: (idx: number) => void;
   onClickCancelEditing: (idx: number) => void;
+  onClickConfirmEditing: (idx: number, value: string) => void;
+  onRemoveMemo: (idx: number) => void;
 }
 
 const StickyNote = ({
   onClickCancelEditing,
+  onClickConfirmEditing,
   onClickEditMemo,
+  onRemoveMemo,
   note,
   children,
 }: IStickyNode) => {
+  const { values, onChange, onReset } = useInputText({ [note.id]: note.task });
+  const onConfirmEditing: MouseEventHandler<HTMLButtonElement> = useCallback(
+    (e) => {
+      e.stopPropagation();
+      onClickConfirmEditing(note.index, values[note.id]);
+      onReset();
+    },
+    [values]
+  );
   if (note.isEditing) {
     return (
       <StickyNoteUIBlock bgcolour={note.colour}>
@@ -37,11 +50,12 @@ const StickyNote = ({
           <textarea
             className="text__area ft-sp__b"
             name={note.id}
-            value={note.task}
+            onChange={onChange}
+            value={values[note.id]}
             id=""
           ></textarea>
           <ButtonGroup size="sm" isAttached variant="outline">
-            <Button>Confirm</Button>
+            <Button onClick={onConfirmEditing}>Confirm</Button>
             <Button
               onClick={() => {
                 onClickCancelEditing(note.index);
@@ -61,7 +75,14 @@ const StickyNote = ({
         <PrivateDisplay>
           {getEmail() == note.ownerId && (
             <div className="button__group">
-              <Button className="btn__delete">delete</Button>
+              <Button
+                onClick={() => {
+                  onRemoveMemo(note.index);
+                }}
+                className="btn__delete"
+              >
+                delete
+              </Button>
               <Button
                 onClick={() => {
                   onClickEditMemo(note.index);

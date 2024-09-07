@@ -15,7 +15,7 @@ import { Todo } from "./schemes/Todos";
 import { stickyNotesColours } from "../../config/stickyNotesColours";
 import { getEmail, isLogin } from "../../storage/localStorage";
 import { constants } from "../../constants";
-import { CREATE_POST } from "./apis";
+import { CREATE_POST, REMOVE_POST, UPDATE_POST } from "./apis";
 import { Button, ButtonGroup } from "@chakra-ui/react";
 
 const TodoCardUIBlock = styled.div``;
@@ -31,7 +31,6 @@ const TodosPage = ({ children }: ITodos) => {
   const [todoList, setTodoList] = useState<EditableNote[]>([]);
   const { loading, error, data } = useQuery(GET_TODO_LIST, {
     errorPolicy: "all",
-
     onCompleted: (data) => {
       const { getTodoList: list } = data;
       setTodoList(
@@ -49,7 +48,9 @@ const TodosPage = ({ children }: ITodos) => {
       }
     },
   });
-  const [updatePost, {}] = useMutation(CREATE_POST);
+  const [createPost, {}] = useMutation(CREATE_POST);
+  const [updatePost, {}] = useMutation(UPDATE_POST);
+  const [removePost, {}] = useMutation(REMOVE_POST);
   const onClickEditMemo = useCallback(
     (idx: number) => {
       const newList = todoList;
@@ -78,11 +79,20 @@ const TodosPage = ({ children }: ITodos) => {
     },
     [newPost]
   );
+  const onRemoveMemo = useCallback(
+    (index: number) => {
+      removePost({
+        variables: {
+          id: todoList[index].id,
+        },
+      });
+    },
+    [todoList]
+  );
   const onConfirmMemo = useCallback(
     (message: string) => {
       // useMuation can't be used within useCallback
-
-      updatePost({
+      createPost({
         variables: {
           task: message,
           ownerId: getEmail(),
@@ -90,7 +100,6 @@ const TodosPage = ({ children }: ITodos) => {
           importance: 1,
         },
       });
-
       setNewPost({
         ...newPost,
         isEditing: false,
@@ -106,6 +115,24 @@ const TodosPage = ({ children }: ITodos) => {
     },
     [todoList]
   );
+  const onClickConfirmEditing = useCallback(
+    (index: number, message: string) => {
+      const newList = todoList;
+      updatePost({
+        variables: {
+          id: newList[index].id,
+          task: message,
+          ownerId: newList[index].ownerId,
+          urgency: 1,
+          importance: 1,
+        },
+      });
+      newList[index].task = message;
+      newList[index].isEditing = !newList[index].isEditing;
+      setTodoList([...newList]);
+    },
+    [todoList]
+  );
 
   if (error) return <div>{error.message}</div>;
   if (loading) return <Spinner />;
@@ -115,8 +142,10 @@ const TodosPage = ({ children }: ITodos) => {
         {todoList.map((item: EditableNote, i: number) => {
           return (
             <StickyNote
+              onClickConfirmEditing={onClickConfirmEditing}
               onClickCancelEditing={onClickCancelEditing}
               onClickEditMemo={onClickEditMemo}
+              onRemoveMemo={onRemoveMemo}
               note={item}
               key={i}
             />
