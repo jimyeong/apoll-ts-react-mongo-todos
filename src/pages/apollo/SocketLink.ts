@@ -3,7 +3,7 @@ import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 
 const socketLink = new GraphQLWsLink(
   createClient({
-    url: "ws://localhost:4000/subscriptions",
+    url: "ws://localhost:4000/subscription",
   })
 );
 

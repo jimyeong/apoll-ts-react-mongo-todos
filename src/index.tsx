@@ -29,7 +29,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 const client = new ApolloClient({
   uri: process.env.REACT_APP_SERVER,
   cache: new InMemoryCache(),
-  link: from([errorLink, httpLink, socketLink]),
+  link: from([errorLink, socketLink]),
   credentials: "include",
 });
 

@@ -4,12 +4,15 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { ListViewer } from "../../ui";
 import { StickyNote, AddAnotherStickyNote } from "./ui";
-import AddTodoTask from "./containers/AddTodoTask";
 import styled from "styled-components";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import { GET_TODO_LIST } from "./schemes/Todos";
+import {
+  SUBSCRIBE_UPDATE_TASK,
+  SUBSCRIBE_CREATE_TASK,
+  SUBSCRIBE_REMOVE_TASK,
+} from "./apis";
 import { Spinner } from "@chakra-ui/react";
 import { Todo } from "./schemes/Todos";
 import { stickyNotesColours } from "../../config/stickyNotesColours";
@@ -51,6 +54,9 @@ const TodosPage = ({ children }: ITodos) => {
   const [createPost, {}] = useMutation(CREATE_POST);
   const [updatePost, {}] = useMutation(UPDATE_POST);
   const [removePost, {}] = useMutation(REMOVE_POST);
+  const { data: subscription } = useSubscription(SUBSCRIBE_UPDATE_TASK);
+  console.log("@@@taskupdated", subscription);
+
   const onClickEditMemo = useCallback(
     (idx: number) => {
       const newList = todoList;
@@ -127,9 +133,6 @@ const TodosPage = ({ children }: ITodos) => {
           importance: 1,
         },
       });
-      newList[index].task = message;
-      newList[index].isEditing = !newList[index].isEditing;
-      setTodoList([...newList]);
     },
     [todoList]
   );

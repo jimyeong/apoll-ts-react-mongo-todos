@@ -56,5 +56,34 @@ const CREATE_POST = gql`
 `;
 
 const createNewPost = () => {};
+const SUBSCRIBE_UPDATE_TASK = gql`
+  subscription {
+    taskUpdated {
+      task
+      createdAt
+    }
+  }
+`;
+const SUBSCRIBE_REMOVE_TASK = gql`
+  subscription {
+    taskRemoved {
+      task
+    }
+  }
+`;
+const SUBSCRIBE_CREATE_TASK = gql`
+  subscription {
+    taskCreated {
+      task
+    }
+  }
+`;
 
-export { CREATE_POST, UPDATE_POST, REMOVE_POST };
+export {
+  CREATE_POST,
+  UPDATE_POST,
+  REMOVE_POST,
+  SUBSCRIBE_CREATE_TASK,
+  SUBSCRIBE_UPDATE_TASK,
+  SUBSCRIBE_REMOVE_TASK,
+};
