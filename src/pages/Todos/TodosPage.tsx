@@ -23,6 +23,10 @@ import { Button, ButtonGroup } from "@chakra-ui/react";
 
 const TodoCardUIBlock = styled.div``;
 type EditableNote = Todo & { isEditing: boolean; index: number };
+type updated = {
+  task: String;
+  createdAt: Date;
+};
 
 interface ITodos extends React.PropsWithChildren {}
 const TodosPage = ({ children }: ITodos) => {
@@ -54,8 +58,19 @@ const TodosPage = ({ children }: ITodos) => {
   const [createPost, {}] = useMutation(CREATE_POST);
   const [updatePost, {}] = useMutation(UPDATE_POST);
   const [removePost, {}] = useMutation(REMOVE_POST);
-  const { data: subscription } = useSubscription(SUBSCRIBE_UPDATE_TASK);
-  console.log("@@@taskupdated", subscription);
+  const { data: subscription } = useSubscription(SUBSCRIBE_UPDATE_TASK, {
+    onData: ({ data: updated }) => {
+      const newList = todoList.map((item, idx) => {
+        if (item.isEditing) {
+          const { data } = updated;
+          item.task = data.taskUpdated.task;
+          item.isEditing = false;
+        }
+        return item;
+      });
+      setTodoList(newList);
+    },
+  });
 
   const onClickEditMemo = useCallback(
     (idx: number) => {
@@ -105,10 +120,6 @@ const TodosPage = ({ children }: ITodos) => {
           urgency: 1,
           importance: 1,
         },
-      });
-      setNewPost({
-        ...newPost,
-        isEditing: false,
       });
     },
     [newPost]
