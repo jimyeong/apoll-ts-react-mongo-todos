@@ -59,22 +59,43 @@ const createNewPost = () => {};
 const SUBSCRIBE_UPDATE_TASK = gql`
   subscription {
     taskUpdated {
+      id
+      ownerId
       task
+      urgency
+      importance
+      colour
       createdAt
+      updatedAt
     }
   }
 `;
+
 const SUBSCRIBE_REMOVE_TASK = gql`
   subscription {
     taskRemoved {
+      id
+      ownerId
       task
+      urgency
+      importance
+      colour
+      createdAt
+      updatedAt
     }
   }
 `;
 const SUBSCRIBE_CREATE_TASK = gql`
   subscription {
     taskCreated {
+      id
+      ownerId
       task
+      urgency
+      importance
+      colour
+      createdAt
+      updatedAt
     }
   }
 `;

@@ -72,3 +72,13 @@ const httpLink = new HttpLink({
         />
 
 ```
+
+attritbuted to React's features,
+Seperate classes into NewMemo class, and editing memo
+
+1. value=""
+2. value=memo.value
+   should be different
+
+for the first case, the whole controlling page doesn;t need to be re rendered whenever the NewMemo component is being re-rendered, on the other hand,
+the editing.value should be having the value from it's parent's list,

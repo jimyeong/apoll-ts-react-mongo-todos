@@ -1,4 +1,10 @@
-import React, { MouseEventHandler, useCallback } from "react";
+import React, {
+  ChangeEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import styled from "styled-components";
 import StickyNoteUIBlock from "./StickyNotes/StickyNoteUIBlock";
 import useInputText from "../../../../hooks/useInputText";
@@ -34,16 +40,22 @@ const StickyNote = ({
   note,
   children,
 }: IStickyNode) => {
+  // when it's rendered for the firtime(when initiated),
+  // when it's changing, they are different.
   const { values, onChange, onReset } = useInputText({ [note.id]: note.task });
   const onConfirmEditing: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
       e.stopPropagation();
       onClickConfirmEditing(note.index, values[note.id]);
-      onReset();
+
+      //** onReset!! becareful when  editing is confirmed*/
+      // onReset();
     },
     [values]
   );
+
   if (note.isEditing) {
+    console.log("note.id", values);
     return (
       <StickyNoteUIBlock bgcolour={note.colour}>
         <div className="inner__padding">
@@ -99,69 +111,4 @@ const StickyNote = ({
   );
 };
 
-interface IAddAnotherStickyNote extends React.PropsWithChildren {
-  colour: string;
-  addMemoHandler: MouseEventHandler<HTMLDivElement>;
-  cancelMemoHandler: MouseEventHandler<HTMLButtonElement>;
-  confirmHandler: (message: string) => void;
-  isEditing: boolean;
-}
-
-const AddAnotherStickyNote = ({
-  isEditing,
-  addMemoHandler,
-  cancelMemoHandler,
-  confirmHandler,
-  children,
-  colour,
-}: IAddAnotherStickyNote) => {
-  const { onChange, onReset, values } = useInputText({
-    name: "new_post",
-    new_post: "",
-  });
-  const onClickDismiss: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      onReset();
-      cancelMemoHandler(e);
-    },
-    [isEditing]
-  );
-  const onClickConfirm: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      e.stopPropagation();
-      confirmHandler(values.new_post);
-      onReset();
-    },
-    [isEditing, values.new_post]
-  );
-  console.log(values);
-  if (!isEditing) {
-    return (
-      <StickyNoteUIBlock onClick={addMemoHandler} bgcolour={colour}>
-        <div className="inner__padding" style={{ border: "3px dashed #333" }}>
-          <span className="dib icon__plus">+</span>
-          <span className="dib"></span>
-        </div>
-      </StickyNoteUIBlock>
-    );
-  }
-  return (
-    <StickyNoteUIBlock onClick={addMemoHandler} bgcolour={colour}>
-      <div className="inner__padding" style={{ border: "3px dashed #333" }}>
-        <textarea
-          onChange={onChange}
-          className="text__area ft-sp__b"
-          name={values.name}
-          value={values.new_post}
-          id=""
-        ></textarea>
-        <ButtonGroup size="sm" isAttached variant="outline">
-          <Button onClick={onClickConfirm}>Confirm</Button>
-          <Button onClick={onClickDismiss}>Cancel</Button>
-        </ButtonGroup>
-      </div>
-    </StickyNoteUIBlock>
-  );
-};
-
-export { StickyNote, AddAnotherStickyNote };
+export default React.memo(StickyNote);

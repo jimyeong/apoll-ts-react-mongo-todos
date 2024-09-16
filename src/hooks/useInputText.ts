@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useState } from "react";
+import React, { ChangeEventHandler, useState, useEffect } from "react";
 
 /**
  * TODO
@@ -18,6 +18,7 @@ const useInputText = (initialState: any) => {
       [name]: value,
     });
   };
+
   return { onChange, onReset, values };
 };
 

@@ -4,7 +4,8 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { StickyNote, AddAnotherStickyNote } from "./ui";
+import { StickyNote } from "./ui";
+
 import styled from "styled-components";
 import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import { GET_TODO_LIST } from "./schemes/Todos";
@@ -20,6 +21,7 @@ import { getEmail, isLogin } from "../../storage/localStorage";
 import { constants } from "../../constants";
 import { CREATE_POST, REMOVE_POST, UPDATE_POST } from "./apis";
 import { Button, ButtonGroup } from "@chakra-ui/react";
+import { NewNote } from "./ui";
 
 const TodoCardUIBlock = styled.div``;
 type EditableNote = Todo & { isEditing: boolean; index: number };
@@ -58,7 +60,16 @@ const TodosPage = ({ children }: ITodos) => {
   const [createPost, {}] = useMutation(CREATE_POST);
   const [updatePost, {}] = useMutation(UPDATE_POST);
   const [removePost, {}] = useMutation(REMOVE_POST);
-  const { data: subscription } = useSubscription(SUBSCRIBE_UPDATE_TASK, {
+  const taskRemoved = useSubscription(SUBSCRIBE_REMOVE_TASK, {
+    onData: ({ data: removed }) => {
+      const { data } = removed;
+      const newList = todoList.filter(
+        (item) => item.id !== data.taskRemoved.id
+      );
+      setTodoList(newList);
+    },
+  });
+  const updateTask = useSubscription(SUBSCRIBE_UPDATE_TASK, {
     onData: ({ data: updated }) => {
       const newList = todoList.map((item, idx) => {
         if (item.isEditing) {
@@ -68,7 +79,7 @@ const TodosPage = ({ children }: ITodos) => {
         }
         return item;
       });
-      setTodoList(newList);
+      setTodoList([...newList]);
     },
   });
 
@@ -88,7 +99,7 @@ const TodosPage = ({ children }: ITodos) => {
         isEditing: true,
       });
     },
-    [newPost]
+    [newPost, todoList]
   );
   const onClickCancelMemo: MouseEventHandler<HTMLButtonElement> = useCallback(
     (e) => {
@@ -153,21 +164,19 @@ const TodosPage = ({ children }: ITodos) => {
   return (
     <TodoCardUIBlock>
       <div className="clearfix">
-        {todoList.map((item: EditableNote, i: number) => {
-          return (
-            <StickyNote
-              onClickConfirmEditing={onClickConfirmEditing}
-              onClickCancelEditing={onClickCancelEditing}
-              onClickEditMemo={onClickEditMemo}
-              onRemoveMemo={onRemoveMemo}
-              note={item}
-              key={i}
-            />
-          );
-        })}
+        {todoList.map((item: EditableNote, i: number) => (
+          <StickyNote
+            onClickConfirmEditing={onClickConfirmEditing}
+            onClickCancelEditing={onClickCancelEditing}
+            onClickEditMemo={onClickEditMemo}
+            onRemoveMemo={onRemoveMemo}
+            note={item}
+            key={i}
+          />
+        ))}
 
         {isLogin() == "1" && (
-          <AddAnotherStickyNote
+          <NewNote
             confirmHandler={onConfirmMemo}
             addMemoHandler={onClickAddMemo}
             cancelMemoHandler={onClickCancelMemo}

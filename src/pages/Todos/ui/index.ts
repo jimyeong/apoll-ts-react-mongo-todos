@@ -1,4 +1,5 @@
-import { StickyNote, AddAnotherStickyNote } from "./components/StickyNote";
+import StickyNote from "./components/StickyNote";
 import Header from "./components/Header/Header";
+import NewNote from "./components/StickyNotes/NewNote";
 
-export { StickyNote, Header, AddAnotherStickyNote };
+export { StickyNote, Header, NewNote };
